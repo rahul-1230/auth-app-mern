@@ -1,8 +1,8 @@
 import express from "express";
 import Todo from "../models/userTodo";
-import { getToken, isAuth } from "../util";
-import { loginValidation, registerValidation } from "../validate";
-import bcrypt from "bcryptjs";
+import {isAuth } from "../util";
+
+
 const router = express.Router();
 
 
@@ -11,7 +11,7 @@ const router = express.Router();
 // @route    GET api/todos
 // @desc     Get all todos
 // @access   Private
-router.get("/", auth, async (req, res) => {
+router.get("/", isAuth, async (req, res) => {
     try {
         const todos = await Todo.find({
             user: req.user.id,
@@ -26,7 +26,7 @@ router.get("/", auth, async (req, res) => {
 // @route    POST api/todos
 // @desc     Create a todo
 // @access   Private
-router.post("/", auth, async (req, res) => {
+router.post("/", isAuth, async (req, res) => {
 
     if (!title && !description) {
         return res.status(400).json("Enter All Details");
@@ -57,7 +57,7 @@ router.post("/", auth, async (req, res) => {
 // @desc     Update a todo
 // @access   Private
 router.put(
-    "/:id", auth, async (req, res) => {
+    "/:id", isAuth, async (req, res) => {
 
         if (!title && !description) {
             return res.status(400).json("Enter All Details");
@@ -100,7 +100,7 @@ router.put(
 // @route    GET api/todos/:id
 // @desc     Get todo by ID
 // @access   Private
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", isAuth, async (req, res) => {
     try {
         const todo = await Todo.findById(req.params.id);
         // Check for ObjectId format and todo besides if the todo belongs to authenticated user
@@ -121,7 +121,7 @@ router.get("/:id", auth, async (req, res) => {
 // @route    DELETE api/todos/:id
 // @desc     Delete a todo
 // @access   Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", isAuth, async (req, res) => {
     try {
         const todo = await Todo.findById(req.params.id);
 
@@ -147,7 +147,7 @@ router.delete("/:id", auth, async (req, res) => {
 // @route    PUT api/todos/complete/:id
 // @desc     Complete a todo
 // @access   Private
-router.put("/complete/:id", auth, async (req, res) => {
+router.put("/complete/:id", isAuth, async (req, res) => {
     try {
         const todo = await Todo.findById(req.params.id);
 
