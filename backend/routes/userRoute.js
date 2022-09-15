@@ -46,7 +46,6 @@ router.post("/signin", async (req, res) => {
       name: signinUser.name,
       email: signinUser.email,
       // username : signinUser.username,
-      
       token: getToken(signinUser),
     });
   } else {
@@ -73,14 +72,11 @@ router.post("/register", async (req, res) => {
       _id: newUser.id,
       name: newUser.name,
       email: newUser.email,
-      
       token: getToken(newUser),
     });
   } else {
     res.status(401).send({ msg: "Invalid User Data." });
   }
 });
-
-
 
 export default router;
