@@ -22,7 +22,7 @@ const isAuth = (req, res, next) => {
         return res.status(401).send({ msg: 'Invalid Token' });
       }
       req.user = decode;
-      next();
+      next(); //run after all middleware executed
       return
     });
   } else {

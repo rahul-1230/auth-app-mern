@@ -174,3 +174,20 @@ router.put("/complete/:id", isAuth, async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
+// @route    PUT api/todos/deleteAll
+// @desc     deleteall todo
+// @access   Private
+
+router.delete('/deleteAll', isAuth, async(req,res) => {
+    try {
+        await Todo.deleteMany({ user: req.user.id });
+        return res.json('All Todo Deleted Successfully');
+    } catch (error) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+export default router;
